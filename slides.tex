@@ -3,10 +3,10 @@
 \useinnertheme{rounded}
 \usecolortheme{whale}
 
-\title{Grafi di Torneo}
-\subtitle{Un algoritmo per determinare il vincitore}
+\title{Next Reaction Method}
+\subtitle{Efficient Stochastic Simulation of Chemical Systems}
 \author{Lorenzo Beretta}
-\date{30 aprile 2019}
+\date{29th July 2019}
 
 %pacchetti scrittura
 \usepackage{dsfont}
@@ -28,7 +28,7 @@
 \usepackage{tikz}
 \usepackage{color}
 \usepackage{centernot}
-
+\usepackage{esvect}
 
 % tikz
 \usetikzlibrary{positioning,chains,fit,shapes,calc}
@@ -39,10 +39,31 @@
 \begin{document}
 
 \begin{frame}
-	\maketitle
+  \maketitle
 \end{frame}
 
-\begin{frame}{Definizione}
+\begin{frame}{Predictive Model Definition}
+  To define a predictive model we need two steps:
+  \begin{itemize}
+  \item $\bullet$ Define a descriptive model of the phenomenon
+    \begin{block}{Descriptive Model: Differential Equation}
+      The Newton's law of motion:
+      $$ \vv{F} = m \, \frac{\partial^2 \vv{x}}{\partial t^2} $$
+    \end{block}
+    
+  \item $\bullet$ Define a computational model to make predictions
+    \begin{block}{Computational Model: Numerical Integration}
+      \begin{figure}[h]
+        \centering
+        \includegraphics[scale=0.6]{num_int}
+      \end{figure}
+
+    \end{block}
+
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{Descriptive Model Definition}
 	\begin{block}{Torneo}
 	$T=\left(V,A\right)$ un grafo diretto e completo.
 	\end{block}
