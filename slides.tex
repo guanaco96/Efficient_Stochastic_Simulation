@@ -281,6 +281,36 @@
     \item $\bullet$ Appropriate data structure to store $\bigl\{\tau_i\bigr\}_i$
     \end{itemize}
   \end{block}
+  \begin{block}{Dependency Graph}
+    $G=\left(V,\, E\right)$ where $V$ are reactions \\
+    \vspace{2pt}
+    For each reaction $u,\, v \in V$:
+    \begin{itemize}
+    \item $\bullet$ \textsc{Affects}$(u) \simeq $ \textsc{Reactants}$(u)$ $\cup$ \textsc{Products}$(u)$
+    \item $\bullet$ \textsc{DependsOn}$(v) \simeq $ \textsc{Reactants}$(v)$
+    \item $\bullet$ \textsc{Affects}$(u)$ $\cap$
+      \textsc{Reactants}$(v) \neq \emptyset$ $\iff \bigl(u, v \bigr) \in E$   
+    \end{itemize}    
+  \end{block}
+\end{frame}
+
+\begin{frame}{Indexed Priority Queue}
+  \begin{block}{Data Structure}
+    We need to store key-value pairs $\left(\tau_i,\, i\right)$ supporting:
+    \begin{itemize}
+    \item $\bullet$ \textsc{PopMin}
+    \item $\bullet$ \textsc{UpdateKey}
+    \end{itemize}
+  \end{block}
+  \vspace{5pt}
+  Dependency Graph sparse $\implies$ few calls to \textsc{UpdateKey}
+  \begin{center}
+    \textbf{Priority Queue $\pmb{\gg}$ Array}
+  \end{center}
+  Naive PQ: \textsc{UpdateKey} = \textsc{DeleteKey} + \textsc{InsertKey}
+\end{frame}
+
+\begin{frame}{Indexed Priority Queue}
   
 \end{frame}
 
