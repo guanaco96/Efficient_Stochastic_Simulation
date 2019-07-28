@@ -550,7 +550,7 @@
     \item For each arc $\bigl(\mu, \alpha\bigr)$ in $G$:
       \begin{enumerate}
       \item $\tau_\alpha \leftarrow \left(a^{old}_\alpha \big/ a^{new}_\alpha\right)
-        \left(\tau_\alpha - \tau_\mu) + \tau_\mu$
+        \left(\tau_\alpha - \tau_\mu\right) + \tau_\mu$
       \item \textsc{UpdateKey}$\left(\alpha, \, \tau_\alpha\right)$
       \end{enumerate}
     \item Sample $\rho$ form distribution $\Exp\left(a^{new}_\mu\right)$
@@ -561,13 +561,15 @@
   \end{block}
 \end{frame}
 
-
+\begin{frame}{Next Reaction: Correctness}
+  
+\end{frame}
 
 \begin{frame}{Next Reaction: Analysis}
   \begin{block}{Complexity}
     The Complexity of Next Reaction simulating $r$ reactions is
     $$ O\bigl(k \log(r)\bigr) $$
-    where $k$ is the average out-degree of dependency graph.    
+    where $k$ is the average degree of dependency graph.    
   \end{block}
   Questa slide la metto dopo aver provato la correttezza del First reaction e anche quella
   dell'optimized direct method, dico che hanno la stessa complessità ma nella pratica è meglio il FRM
