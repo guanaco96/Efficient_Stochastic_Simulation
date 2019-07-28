@@ -29,6 +29,7 @@
 \usepackage{color}
 \usepackage{centernot}
 \usepackage{esvect}
+\DeclareMathOperator{\Exp}{\text{Exp}}
 
 % tikz
 \usetikzlibrary{positioning,chains,fit,shapes,calc}
@@ -107,8 +108,8 @@
           \begin{gathered}
             \frac{\partial [A]}{\partial t} = f_A\left([A], \dots [G]\right) \\
             \frac{\partial [B]}{\partial t} = f_B\left([A], \dots [G]\right) 
-            &\vdots\\
-            \frac{\partial [G]}{\partial t} = f_G\left([A], \dots [G]\right) \\
+            \vdots\\
+            \frac{\partial [G]}{\partial t} = f_G\left([A], \dots [G]\right)
           \end{gathered}
         \end{equation*}
       \end{block}
@@ -143,7 +144,7 @@
     in  $[0, dt]$ is
     $$a_i dt + o(dt)$$
     with
-    $$ a_i = k_i \cdot \#R_1 \codt \dots \#R_n$$
+    $$ a_i = k_i \cdot \# R_1 \dots \#R_n$$
   \end{block}
 \end{frame}
 
@@ -158,13 +159,13 @@
           \end{block}
         \end{minipage}
       \end{center}
-      \vspace{1}
+      \vspace{1.pt}
     \item $\bullet$ Propensities are constant 
       \begin{center} 
        \begin{minipage}{.7 \textwidth}
           \begin{block}{Transition Probability}
-            If $a_1$ reaction turns $S$ into $S^\pirme$, then for each $t > 0$
-            $$ \mathbb{P}\left(S^\prime, t + dt \,  \left | \, S, t\right\right) = a_1dt + o(dt) $$
+            If $a_1$ reaction turns $S$ into $S^\prime$, then for each $t > 0$
+            $$ \mathbb{P}\left(S^\prime, t + dt \,  \middle| \, S, t \right) = a_1dt + o(dt) $$
           \end{block}
         \end{minipage}
       \end{center}   
@@ -194,19 +195,24 @@
 \begin{frame}{Reaction Times Distribution}
   Let $f:\left[0, +\infty\right) \longrightarrow \mathbb{R}^+$ density of $i$-th reaction 
   \begin{equation*}
-    \left\{
-      \begin{aligned}
-        &f(0) = \frac{d}{dt} \mathbb{P}_i\left(dt \,  \left | \, S, 0 \right\right)= a_i \\
-        &f(t + t_0) = \frac{f(t)}{1 - \int_0^{t_0} f(s)\, ds} \\        
-      \end{aligned}\right
-    \implies f(t) = \left\{
+    \lbrace\{
+    \begin{aligned}
+      &f(0) = \frac{d}{dt} \mathbb{P}_i \left(dt \, \middle| \, S, 0 \right)= a_i\\
+      &f(t + t_0) = \frac{f(t)}{1 - \int_0^{t_0} f(s)\, ds}         
+    \end{aligned}
+    \implies f(t) = \lbrace\{
     \begin{aligned} 
-        & a_i e^{-a_i t}   &\text{ if $t \geq 0$} \\
-        &0 &\text{if $t < 0$}
-    \end{aligned}\right
+        & a_i e^{-a_i t}   &\text{if } t \geq 0 \\
+        &0 &\text{if } t < 0
+    \end{aligned}
   \end{equation*}
-  \begin{block}{Poisson Process}
-    Considering one reaction we get a Poisson Process.
+  \begin{block}{Exponential Distribution}
+    \begin{itemize}
+    \item $\bullet$ The density above corresponds to the r.v. $\Exp(a_i)$
+    \item $\bullet$ $\Exp(a_1) \land \dots \land \Exp(a_n)$ is distributed as
+      $\Exp\left(\sum_{i\leq n} a_i\right)$ 
+    \item $\bullet$ If we 
+    \end{itemize}
   \end{block}
 \end{frame}
 
