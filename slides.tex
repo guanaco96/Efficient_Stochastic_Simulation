@@ -30,7 +30,8 @@
 \usepackage{centernot}
 \usepackage{esvect}
 \newcommand{\labelenumi}{\arabic{enumi}.} 
-\newcommand{\labelenumii}{\roman{enumii}.}
+\newcommand{\labelenumii}{}
+\newcommand{\labelenumiii}{}
 \DeclareMathOperator{\Exp}{\text{Exp}}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \setbeamertemplate{items}[square]
@@ -316,7 +317,7 @@
     \item Sample reaction $\mu$ with probability $a_\mu \big/ \sum_j a_j$
     \item Sample $\tau$ from distribution $\Exp\left(\sum_j a_j\right)$
     \item Update $S$ and $t \leftarrow t + \tau$
-    \item Go to step 2.
+    \item Go to step 2
     \end{enumerate}
   \end{block}
 \end{frame}
@@ -327,10 +328,10 @@
     \item Initialize $S$ and $t\leftarrow 0$ 
     \item Calculate $a_i$ for each reaction $i$
     \item For each reaction $i$: \\
-      $\quad$ Sample a \textbf{tentative time} $\tau_i$ from $\Exp\left(a_i\right)$  
+       Sample a \textbf{tentative time} $\tau_i$ from $\Exp\left(a_i\right)$  
     \item Define $\mu = \argmin\limits_i\left\{\tau_i\right\}$ and $\tau = \tau_\mu$
     \item Update $S$ and $t \leftarrow t + \tau$
-    \item Go to step 2.
+    \item Go to step 2
     \end{enumerate}
   \end{block}
   \begin{block}{Method Equivalence}
@@ -341,22 +342,6 @@
         \forall j \leq n \right] = a_i \big/\sum_ja_j \implies \mu_{DM} \sim \mu_{FRM}$
     \end{itemize}
   \end{block}
-\end{frame}
-
-\begin{frame}{Gillespie's Methods}
-  \begin{block}{Unbiased Estimators}
-    DM and FRM are unbiased estimators of
-    master equation solution
-
-  \end{block}
-  \begin{block}{Naive Implementations Comparison}
-    \begin{itemize} 
-    \item $\bullet$ Direct Method samples 2 random numbers
-    \item $\bullet$ The First Reaction Method samples one per reaction 
-    \item $\bullet$ RNG takes up to 10x FLOP
-    \end{itemize}
-  \end{block}
-\center \Huge{SLIDE DA CAMBIARE}
 \end{frame}
 
 \begin{frame}{Next Reaction Method}
@@ -384,8 +369,8 @@
   \begin{block}{Data Structure}
     We need to store key-value pairs $\left(\tau_i,\, i\right)$ supporting:
     \begin{itemize}
-    \item $\bullet$ \textsc{PopMin}
-    \item $\bullet$ \textsc{UpdateKey}
+    \item $\bullet$ \textsc{PopMin}()
+    \item $\bullet$ \textsc{UpdateKey}$\left(i, \, \tau_i\right)$
     \end{itemize}
   \end{block}
   \vspace{5pt}
@@ -393,10 +378,15 @@
   \begin{center}
     \textbf{Priority Queue $\pmb{\gg}$ Array}
   \end{center}
-  Naive PQ: \textsc{UpdateKey} = \textsc{DeleteKey} + \textsc{InsertKey}
+  Standard PQ: \textsc{UpdateKey} = \textsc{DeleteKey} + \textsc{InsertKey} $= 4\log(n)$
+  Indexed PQ: \textsc{UpdateKey} = $2\log(n)$ \\
+  \begin{center}
+    And much fewer comparisons in practice!
+  \end{center}
+
 \end{frame}
 
-\begin{frame}{Indexed Priority Queue: \textsc{Updatekey}}
+\begin{frame}{Indexed Priority Queue: \textsc{UpdateKey}}
   \begin{columns}
     \begin{column}{0.7 \textwidth}
       
@@ -434,7 +424,7 @@
 \end{frame}
 
 
-\begin{frame}{Indexed Priority Queue: \textsc{Updatekey}}
+\begin{frame}{Indexed Priority Queue: \textsc{UpdateKey}}
   \begin{columns}
     \begin{column}{0.7 \textwidth}
       
@@ -472,7 +462,7 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{Indexed Priority Queue: \textsc{Updatekey}}
+\begin{frame}{Indexed Priority Queue: \textsc{UpdateKey}}
   \begin{columns}
     \begin{column}{0.7 \textwidth}
       
@@ -510,7 +500,7 @@
   \end{columns}
 \end{frame}
 
-\begin{frame}{Indexed Priority Queue: \textsc{Updatekey}}
+\begin{frame}{Indexed Priority Queue: \textsc{UpdateKey}}
   \begin{columns}
     \begin{column}{0.7 \textwidth}
       
@@ -550,55 +540,53 @@
 \begin{frame}{Next Reaction Algorithm}
   \begin{block}{Next Reaction Algorithm}
     \begin{enumerate}
-    \item Initialize:
-    \begin{enumerate}
     \item Initialize $S$, set $t\leftarrow 0$
     \item Generate dependency graph $G$
-    \item For each reaction $i$: \\
-      $\quad$ Calculate $a_i$, generate and store $\tau_i$
-    \end{enumerate}
-    \item $\bigl(\tau, \mu\bigr) \leftarrow$ \textsc{PopMin}$(\ )$ and  $t\leftarrow \tau_\mu$  
-    \item For each arc $\bigl(\mu, \alpha\bigr)$ in 
-    \item Update $S$ and $t \leftarrow t + \tau$
-    \item Go to step 2.
+    \item For each reaction $i$:
+      \begin{enumerate}
+      \item Calculate $a_i$, generate and store $\tau_i$
+      \end{enumerate}
+    \item $\bigl(\tau_\mu, \mu\bigr) \leftarrow$ \textsc{PopMin}$()$
+    \item For each arc $\bigl(\mu, \alpha\bigr)$ in $G$:
+      \begin{enumerate}
+      \item $\tau_\alpha \leftarrow \left(a^{old}_\alpha \big/ a^{new}_\alpha\right)
+        \left(\tau_\alpha - \tau_\mu) + \tau_\mu$
+      \item \textsc{UpdateKey}$\left(\alpha, \, \tau_\alpha\right)$
+      \end{enumerate}
+    \item Sample $\rho$ form distribution $\Exp\left(a^{new}_\mu\right)$
+    \item $\tau_\mu \leftarrow \rho + \tau_\mu$
+    \item \textsc{UpdateKey}$\left(\mu, \, \tau_\mu\right)$
+    \item Go to step 4
     \end{enumerate}
   \end{block}
-  
 \end{frame}
 
-\begin{frame}{Indexed Priority Queue: \textsc{Updatekey}}
-  Complexity is still $O\bigl(\log(n)\bigl)$ for both operations
+
+
+\begin{frame}{Next Reaction: Analysis}
+  \begin{block}{Complexity}
+    The Complexity of Next Reaction simulating $r$ reactions is
+    $$ O\bigl(k \log(r)\bigr) $$
+    where $k$ is the average out-degree of dependency graph.    
+  \end{block}
+  Questa slide la metto dopo aver provato la correttezza del First reaction e anche quella
+  dell'optimized direct method, dico che hanno la stessa complessità ma nella pratica è meglio il FRM
 \end{frame}
 
-\begin{frame}{SNIPPETS}
-  \begin{center}
-    \begin{minipage}{.7 \textwidth}
-      \begin{block}{Teorema}
-        In quasi ogni torneo ogni vertice è un King.
-      \end{block}
-    \end{minipage}
-  \end{center}
-  \begin{columns}
-    \begin{column}{.45 \textwidth}
-      \begin{block}{Set of Elementary Reactions}
-        \begin{equation*}
-          \begin{gathered}
-            R_1 + R^\prime_2 \xrightarrow{k_1} P_1 \\
-            R_2 + R^\prime_2 \xrightarrow{k_2} P_2 \\
-            R_3 + R_3^\prime \xrightarrow{k_3} P_3 + P_3^\prime 
-          \end{gathered}
-        \end{equation*}
-      \end{block}
-    \end{column} 
-    \begin{column}{.45 \textwidth}
-      \begin{block}{Propensity $k_i$}
-        The probability that $i$-th reaction occurs
-        in  $[0, dt]$ is
-        $$k_i dt + o(dt)$$
-        fixing molecules IDs a priori.
-      \end{block}
-    \end{column}
-  \end{columns}
+\begin{frame}{Gillespie's Methods}
+  \begin{block}{Unbiased Estimators}
+    DM and FRM are unbiased estimators of
+    master equation solution
+
+  \end{block}
+  \begin{block}{Naive Implementations Comparison}
+    \begin{itemize} 
+    \item $\bullet$ Direct Method samples 2 random numbers
+    \item $\bullet$ The First Reaction Method samples one per reaction 
+    \item $\bullet$ RNG takes up to 10x FLOP
+    \end{itemize}
+  \end{block}
+\center \Huge{SLIDE DA CAMBIARE}
 \end{frame}
 
 \begin{frame}
