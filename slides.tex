@@ -195,16 +195,16 @@
 \begin{frame}{Reaction Times Distribution}
   Let $f:\left[0, +\infty\right) \longrightarrow \mathbb{R}^+$ density of $i$-th reaction 
   \begin{equation*}
-    \lbrace\{
+    \left\{
     \begin{aligned}
       &f(0) = \frac{d}{dt} \mathbb{P}_i \left(dt \, \middle| \, S, 0 \right)= a_i\\
       &f(t + t_0) = \frac{f(t)}{1 - \int_0^{t_0} f(s)\, ds}         
-    \end{aligned}
-    \implies f(t) = \lbrace\{
-    \begin{aligned} 
+    \end{aligned}\right.
+    \implies f(t) = \left\{
+    \begin{aligned}
         & a_i e^{-a_i t}   &\text{if } t \geq 0 \\
         &0 &\text{if } t < 0
-    \end{aligned}
+    \end{aligned}\right.
   \end{equation*}
   \begin{block}{Exponential Distribution}
     \begin{itemize}
