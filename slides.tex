@@ -30,14 +30,100 @@
 \usepackage{centernot}
 \usepackage{esvect}
 \newcommand{\labelenumi}{\arabic{enumi}.} 
+\newcommand{\labelenumii}{\roman{enumii}.}
 \DeclareMathOperator{\Exp}{\text{Exp}}
 \DeclareMathOperator*{\argmin}{arg\,min}
 \setbeamertemplate{items}[square]
+\usetikzlibrary{matrix}
 
 % tikz
 \usetikzlibrary{positioning,chains,fit,shapes,calc}
 \definecolor{myblue}{RGB}{80,80,160}
 \definecolor{mygreen}{RGB}{80,160,80}
+
+\usetikzlibrary{shapes.misc}
+\usetikzlibrary{shapes.symbols}
+%\usetikzlibrary{snakes}
+\usetikzlibrary{decorations}
+\usetikzlibrary{decorations.markings}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{marginnote}
+\usepackage{scalerel} % to rescale the paraproduct symbols
+%%%
+%% copied from here
+\usepackage{tikz}
+
+
+
+\colorlet{symbols}{black}
+\colorlet{testcolor}{green!60!black}
+
+
+\def\symbol#1{\textcolor{symbols}{#1}}
+\def\1{\mathbf{{1}}}
+\def\X{\symbol{X}}
+\def\Wick#1{\,\colon\!\! \phantom{1} #1 \phantom{1} \!\colon}
+
+\def\drawx{\draw[-,solid] (-3pt,-3pt) -- (3pt,3pt);\draw[-,solid] (-3pt,3pt) -- (3pt,-3pt);}
+\tikzset{
+	root/.style={circle,fill=gray,inner sep=0pt, minimum size=2mm},
+	dot/.style={circle,fill=black,inner sep=0pt, minimum size=1mm},
+	var/.style={circle,fill=black!10,draw=black,inner sep=0pt, minimum size=2mm},
+	circ/.style={circle,fill=white,draw=black,inner sep=0pt, minimum size=1.2mm},
+	dotred/.style={circle,fill=black!50,inner sep=0pt, minimum size=2mm},
+	generic/.style={semithick,shorten >=1pt,shorten <=1pt},
+	gepsilon/.style={semithick,shorten >=1pt,shorten <=1pt,densely dashed},
+	dist/.style={ultra thick,draw=testcolor,shorten >=1pt,shorten <=1pt},
+	testfcn/.style={ultra thick,testcolor,shorten >=1pt,shorten <=1pt,<-},
+	testfcnx/.style={ultra thick,testcolor,shorten >=1pt,shorten <=1pt,<-,
+		postaction={decorate,decoration={markings,mark=at position 0.6 with {\drawx}}}},
+	kprime/.style={semithick,shorten >=1pt,shorten <=1pt,dotted,->},
+	kprimex/.style={semithick,shorten >=1pt,shorten <=1pt,densely dashed,->,
+		postaction={decorate,decoration={markings,mark=at position 0.4 with {\drawx}}}},
+	kernel/.style={semithick,shorten >=1pt,shorten <=1pt,->},
+	multx/.style={shorten >=1pt,shorten <=1pt,
+		postaction={decorate,decoration={markings,mark=at position 0.5 with {\drawx}}}},
+	kernelx/.style={semithick,shorten >=1pt,shorten <=1pt,->,
+		postaction={decorate,decoration={markings,mark=at position 0.4 with {\drawx}}}},
+	kepsilon/.style={semithick,shorten >=1pt,shorten <=1pt,densely dashed,->},
+	kernel1/.style={->,semithick,shorten >=1pt,shorten <=1pt,postaction={decorate,decoration={markings,mark=at position 0.45 with {\draw[-] (0,-0.1) -- (0,0.1);}}}},
+	kernel2/.style={->,semithick,shorten >=1pt,shorten <=1pt,postaction={decorate,decoration={markings,mark=at position 0.45 with {\draw[-] (0.05,-0.1) -- (0.05,0.1);\draw[-] (-0.05,-0.1) -- (-0.05,0.1);}}}},
+	kernelBig/.style={semithick,shorten >=1pt,shorten <=1pt,decorate, decoration={zigzag,amplitude=1.5pt,segment length = 3pt,pre length=2pt,post length=2pt}},
+	rho/.style={dotted,semithick,shorten >=1pt,shorten <=1pt},
+	renorm/.style={shape=circle,fill=white,inner sep=1pt},
+	labl/.style={shape=rectangle,fill=white,inner sep=1pt},
+	xi/.style={circle,fill=symbols!10,draw=symbols,inner sep=0pt,minimum size=1.2mm},
+	xix/.style={crosscircle,fill=symbols!10,draw=symbols,inner sep=0pt,minimum size=1.2mm},
+	xib/.style={circle,fill=symbols!10,draw=symbols,inner sep=0pt,minimum size=1.6mm},
+	xibx/.style={crosscircle,fill=symbols!10,draw=symbols,inner sep=0pt,minimum size=1.6mm},
+	not/.style={circle,fill=symbols,draw=symbols,inner sep=0pt,minimum size=0.5mm},
+	>=stealth,
+	}
+
+\makeatletter
+\def\DeclareSymbol#1#2#3{\expandafter\gdef\csname MH@symb@#1\endcsname{\tikz[baseline=#2,scale=0.15,draw=symbols]{#3}}\expandafter\gdef\csname MH@symb@#1s\endcsname{\scalebox{0.7}{\tikz[baseline=#2,scale=0.15,draw=symbols]{#3}}}}
+\def\<#1>{\csname MH@symb@#1\endcsname}
+\makeatother
+
+\DeclareSymbol{1}{0}{\draw[white] (-.4,0) -- (.4,0); \draw (0,0)  -- (0,1.2) node[dot] {};}
+\DeclareSymbol{2}{0}{\draw (-0.5,1.2) node[dot] {} -- (0,0) -- (0.5,1.2) node[dot] {};}
+\DeclareSymbol{3}{0}{\draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {};}
+\DeclareSymbol{30}{-3}{\draw (0,0) -- (0,-1); \draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {};}
+\DeclareSymbol{31}{-3}{\draw (0,0) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {};}
+\DeclareSymbol{32}{-3}{\draw (0,0) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0) -- (0,-1) -- (-1,0) node[dot] {}; \draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {};}
+\DeclareSymbol{20}{-3}{\draw (0,0) -- (0,-1);\draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {};}
+\DeclareSymbol{22}{-3}{\draw (0,0.3) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0.3) -- (0,-1) -- (-1,0) node[dot] {};\draw (-.7,1) node[dot] {} -- (0,0.3) -- (.7,1) node[dot] {};}
+\DeclareSymbol{31p}{-3}{\draw (0,0) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {}; \draw (0,-1) node{\scaleobj{0.5}{\pe}}; }
+\DeclareSymbol{32p}{-3}{\draw (0,0) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0) -- (0,-1) -- (-1,0) node[dot] {}; \draw (0,0) -- (0,1.2) node[dot] {}; \draw (-.7,1) node[dot] {} -- (0,0) -- (.7,1) node[dot] {}; \draw (0,-1) node{\scaleobj{0.5}{\pe}};}
+\DeclareSymbol{22p}{-3}{\draw (0,0.3) -- (0,-1) -- (1,0) node[dot] {}; \draw (0,0.3) -- (0,-1) -- (-1,0) node[dot] {};\draw (-.7,1) node[dot] {} -- (0,0.3) -- (.7,1) node[dot] {}; \draw (0,-1) node{\scaleobj{0.5}{\pe}};}
+
+\usepackage{forest}
+\usepackage{comment}
+\usetikzlibrary{decorations.pathreplacing}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 
@@ -310,8 +396,178 @@
   Naive PQ: \textsc{UpdateKey} = \textsc{DeleteKey} + \textsc{InsertKey}
 \end{frame}
 
-\begin{frame}{Indexed Priority Queue}
+\begin{frame}{Indexed Priority Queue: \textsc{Updatekey}}
+  \begin{columns}
+    \begin{column}{0.7 \textwidth}
+      
+        \begin{forest}
+          for tree={rectangle,draw, align=center, l sep=20pt, minimum size=3.2em}
+          [{A \\ $\left[\tau_4, 4\right]$}, 
+          [{B \\ $\left[\tau_1, 1\right]$}
+          [{D \\ $\left[\tau_6, 6\right]$}
+          [{H \\ $\left[\tau_7, 7\right]$}]
+          [{I \\ $\left[\tau_5, 5\right]$}]
+          ] 
+          [{E \\ $\left[\tau_0, 0\right]$}]
+          ]
+          [{C \\ $\left[\tau_2, 2\right]$}, fill=green
+          [{F \\ $\left[\tau_3, 3\right]$}
+          [{L \\ $\left[\tau_8, 8\right]$}]
+          ]  
+          [{G \\ $\left[\tau_{9}, 9\right]$}
+          ]
+          ] 
+          ]
+        \end{forest}
+    \end{column}
+    \begin{column}{0.3 \textwidth}
+      \begin{tikzpicture}[draw, minimum width=1.8cm, minimum height=0.5cm]
+        \matrix (M)[matrix of nodes, nodes={draw, nodes={draw}}, nodes in empty cells,
+        row 3/.style={{nodes={fill=green}}},]
+    {
+      $0\rightarrow [E]$ \\ $1\rightarrow [B]$ \\$2\rightarrow [C]$ \\$3\rightarrow [F]$ \\$4\rightarrow [A]$ \\
+      $5\rightarrow [I]$ \\$6\rightarrow [D]$ \\$7\rightarrow [H]$ \\$8\rightarrow [L]$ \\$9\rightarrow [G]$ \\
+    };
+    \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+
+\begin{frame}{Indexed Priority Queue: \textsc{Updatekey}}
+  \begin{columns}
+    \begin{column}{0.7 \textwidth}
+      
+        \begin{forest}
+          for tree={rectangle,draw, align=center, l sep=20pt, minimum size=3.2em}
+          [{A \\ $\left[\tau_4, 4\right]$}, 
+          [{B \\ $\left[\tau_1, 1\right]$}
+          [{D \\ $\left[\tau_6, 6\right]$}
+          [{H \\ $\left[\tau_7, 7\right]$}]
+          [{I \\ $\left[\tau_5, 5\right]$}]
+          ] 
+          [{E \\ $\left[\tau_0, 0\right]$}]
+          ]
+          [{C \\ $\left[\tau_2, 2\right]$}, fill=green
+          [{F \\ $\left[\tau_3, 3\right]$}, fill=yellow
+          [{L \\ $\left[\tau_8, 8\right]$}]
+          ]  
+          [{G \\ $\left[\tau_{9}, 9\right]$}, fill=yellow
+          ]
+          ] 
+          ]
+        \end{forest}
+    \end{column}
+    \begin{column}{0.3 \textwidth}
+      \begin{tikzpicture}[draw, minimum width=1.8cm, minimum height=0.5cm]
+        \matrix (M)[matrix of nodes, nodes={draw, nodes={draw}}, nodes in empty cells,
+        row 3/.style={{nodes={fill=green}}}, row 4/.style={{nodes={fill=yellow}}},
+        row 10/.style={{nodes={fill=yellow}}},]
+    {
+      $0\rightarrow [E]$ \\ $1\rightarrow [B]$ \\$2\rightarrow [C]$ \\$3\rightarrow [F]$ \\$4\rightarrow [A]$ \\
+      $5\rightarrow [I]$ \\$6\rightarrow [D]$ \\$7\rightarrow [H]$ \\$8\rightarrow [L]$ \\$9\rightarrow [G]$ \\
+    };
+    \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Indexed Priority Queue: \textsc{Updatekey}}
+  \begin{columns}
+    \begin{column}{0.7 \textwidth}
+      
+        \begin{forest}
+          for tree={rectangle,draw, align=center, l sep=20pt, minimum size=3.2em}
+          [{A \\ $\left[\tau_4, 4\right]$}, 
+          [{B \\ $\left[\tau_1, 1\right]$}
+          [{D \\ $\left[\tau_6, 6\right]$}
+          [{H \\ $\left[\tau_7, 7\right]$}]
+          [{I \\ $\left[\tau_5, 5\right]$}]
+          ] 
+          [{E \\ $\left[\tau_0, 0\right]$}]
+          ]
+          [{C \\ $\left[\tau_2, 2\right]$}, fill=green
+          [{F \\ $\left[\tau_3, 3\right]$}, fill=yellow
+          [{L \\ $\left[\tau_8, 8\right]$}]
+          ]  
+          [{G \\ $\left[\tau_{9}, 9\right]$}, fill=red!50
+          ]
+          ] 
+          ]
+        \end{forest}
+    \end{column}
+    \begin{column}{0.3 \textwidth}
+      \begin{tikzpicture}[draw, minimum width=1.8cm, minimum height=0.5cm]
+    \matrix (M)[matrix of nodes, nodes={draw, nodes={draw}}, nodes in empty cells,
+        row 3/.style={{nodes={fill=green}}}, row 4/.style={{nodes={fill=yellow}}},
+        row 10/.style={{nodes={fill=red!50}}},]
+    {
+      $0\rightarrow [E]$ \\ $1\rightarrow [B]$ \\$2\rightarrow [C]$ \\$3\rightarrow [F]$ \\$4\rightarrow [A]$ \\
+      $5\rightarrow [I]$ \\$6\rightarrow [D]$ \\$7\rightarrow [H]$ \\$8\rightarrow [L]$ \\$9\rightarrow [G]$ \\
+    };
+    \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Indexed Priority Queue: \textsc{Updatekey}}
+  \begin{columns}
+    \begin{column}{0.7 \textwidth}
+      
+        \begin{forest}
+          for tree={rectangle,draw, align=center, l sep=20pt, minimum size=3.2em}
+          [{A \\ $\left[\tau_4, 4\right]$}, 
+          [{B \\ $\left[\tau_1, 1\right]$}
+          [{D \\ $\left[\tau_6, 6\right]$}
+          [{H \\ $\left[\tau_7, 7\right]$}]
+          [{I \\ $\left[\tau_5, 5\right]$}]
+          ] 
+          [{E \\ $\left[\tau_0, 0\right]$}]
+          ]
+          [{C \\ $\left[\tau_9, 9\right]$}, fill=red!50
+          [{F \\ $\left[\tau_3, 3\right]$}
+          [{L \\ $\left[\tau_8, 8\right]$}]
+          ]  
+          [{G \\ $\left[\tau_{2}, 2\right]$}, fill=green
+          ]
+          ] 
+          ]
+        \end{forest}
+    \end{column}
+    \begin{column}{0.3 \textwidth}
+      \begin{tikzpicture}[draw, minimum width=1.8cm, minimum height=0.5cm]
+    \matrix (M)[matrix of nodes, nodes={draw, nodes={draw}}, nodes in empty cells,
+        row 3/.style={{nodes={fill=green}}}, row 10/.style={{nodes={fill=red!50}}},]
+    {
+      $0\rightarrow [E]$ \\ $1\rightarrow [B]$ \\$2\rightarrow [G]$ \\$3\rightarrow [F]$ \\$4\rightarrow [A]$ \\
+      $5\rightarrow [I]$ \\$6\rightarrow [D]$ \\$7\rightarrow [H]$ \\$8\rightarrow [L]$ \\$9\rightarrow [C]$ \\
+    };
+    \end{tikzpicture}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{Next Reaction Algorithm}
+  \begin{block}{Next Reaction Algorithm}
+    \begin{enumerate}
+    \item Initialize:
+    \begin{enumerate}
+    \item Initialize $S$, set $t\leftarrow 0$
+    \item Generate dependency graph $G$
+    \item For each reaction $i$: \\
+      $\quad$ Calculate $a_i$, generate and store $\tau_i$
+    \end{enumerate}
+    \item $\bigl(\tau, \mu\bigr) \leftarrow$ \textsc{PopMin}$(\ )$ and  $t\leftarrow \tau_\mu$  
+    \item For each arc $\bigl(\mu, \alpha\bigr)$ in 
+    \item Update $S$ and $t \leftarrow t + \tau$
+    \item Go to step 2.
+    \end{enumerate}
+  \end{block}
   
+\end{frame}
+
+\begin{frame}{Indexed Priority Queue: \textsc{Updatekey}}
+  Complexity is still $O\bigl(\log(n)\bigl)$ for both operations
 \end{frame}
 
 \begin{frame}{SNIPPETS}
