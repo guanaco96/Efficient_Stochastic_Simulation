@@ -29,7 +29,10 @@
 \usepackage{color}
 \usepackage{centernot}
 \usepackage{esvect}
+\newcommand{\labelenumi}{\arabic{enumi}.} 
 \DeclareMathOperator{\Exp}{\text{Exp}}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\setbeamertemplate{items}[square]
 
 % tikz
 \usetikzlibrary{positioning,chains,fit,shapes,calc}
@@ -193,27 +196,92 @@
 \end{frame}
 
 \begin{frame}{Reaction Times Distribution}
-  Let $f:\left[0, +\infty\right) \longrightarrow \mathbb{R}^+$ density of $i$-th reaction 
+  Let $f:\left[0, +\infty\right) \longrightarrow \mathbb{R}^+$ density of $i$-th reaction's time 
   \begin{equation*}
     \left\{
     \begin{aligned}
       &f(0) = \frac{d}{dt} \mathbb{P}_i \left(dt \, \middle| \, S, 0 \right)= a_i\\
       &f(t + t_0) = \frac{f(t)}{1 - \int_0^{t_0} f(s)\, ds}         
     \end{aligned}\right.
-    \implies f(t) = \left\{
-    \begin{aligned}
-        & a_i e^{-a_i t}   &\text{if } t \geq 0 \\
-        &0 &\text{if } t < 0
-    \end{aligned}\right.
+    \implies f(t) =  a_i e^{-a_i t}
   \end{equation*}
   \begin{block}{Exponential Distribution}
     \begin{itemize}
-    \item $\bullet$ The density above corresponds to the r.v. $\Exp(a_i)$
+    \item $\bullet$ The $i$-th reaction time is distributed as $\Exp(a_i)$
     \item $\bullet$ $\Exp(a_1) \land \dots \land \Exp(a_n)$ is distributed as
       $\Exp\left(\sum_{i\leq n} a_i\right)$ 
-    \item $\bullet$ If we 
+    \item $\bullet$ Reactions happen as hitting times of an homogeneous 
+      $$\text{\textbf{Poisson Process} of rate } \lambda =  \sum_{i\leq n} a_i$$ 
     \end{itemize}
   \end{block}
+\end{frame}
+
+\begin{frame}{Gillespie's Direct Method}
+  \begin{block}{Lemma}
+    Given $\left\{\Exp(a_j)\right\}_{j\leq n}$ independent 
+    \begin{equation*}
+      \mathbb{P}\left[Exp(a_i) \leq \Exp(a_j) \; \forall j \leq n \right] = \frac{a_i}{\sum_ja_j}
+    \end{equation*}
+  \end{block}
+  \begin{block}{Direct Method}
+    \begin{enumerate}
+    \item Initialize $S$ and $t\leftarrow 0$ 
+    \item Calculate $a_i$ for each reaction $i$
+    \item Sample reaction $\mu$ with probability $a_\mu \big/ \sum_j a_j$
+    \item Sample $\tau$ from distribution $\Exp\left(\sum_j a_j\right)$
+    \item Update $S$ and $t \leftarrow t + \tau$
+    \item Go to step 2.
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Gillespie's First Reaction Method}
+  \begin{block}{First Reaction Method}
+    \begin{enumerate}
+    \item Initialize $S$ and $t\leftarrow 0$ 
+    \item Calculate $a_i$ for each reaction $i$
+    \item For each reaction $i$: \\
+      $\quad$ Sample a \textbf{tentative time} $\tau_i$ from $\Exp\left(a_i\right)$  
+    \item Define $\mu = \argmin\limits_i\left\{\tau_i\right\}$ and $\tau = \tau_\mu$
+    \item Update $S$ and $t \leftarrow t + \tau$
+    \item Go to step 2.
+    \end{enumerate}
+  \end{block}
+  \begin{block}{Method Equivalence}
+    \begin{itemize}
+    \item $\bullet$ $\Exp(a_1) \land \dots \land \Exp(a_n) \sim
+      \Exp\left(\sum_{i\leq n} a_i\right) \implies \tau_{DM}  \sim \tau_{FRM}$
+    \item $\bullet$ $\mathbb{P}\left[Exp(a_i) \leq \Exp(a_j) \;
+        \forall j \leq n \right] = a_i \big/\sum_ja_j \implies \mu_{DM} \sim \mu_{FRM}$
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Gillespie's Methods}
+  \begin{block}{Unbiased Estimators}
+    DM and FRM are unbiased estimators of
+    master equation solution
+
+  \end{block}
+  \begin{block}{Naive Implementations Comparison}
+    \begin{itemize} 
+    \item $\bullet$ Direct Method samples 2 random numbers
+    \item $\bullet$ The First Reaction Method samples one per reaction 
+    \item $\bullet$ RNG takes up to 10x FLOP
+    \end{itemize}
+  \end{block}
+\center \Huge{SLIDE DA CAMBIARE}
+\end{frame}
+
+\begin{frame}{Next Reaction Method}
+  \begin{block}{Optimize First Reaction Method}
+    \begin{itemize}
+    \item $\bullet$ Store and reuse Random Generated Numbers
+    \item $\bullet$ Minimize $a_i$ and $\tau_i$ recalculations
+    \item $\bullet$ Appropriate data structure to store $\bigl\{\tau_i\bigr\}_i$
+    \end{itemize}
+  \end{block}
+  
 \end{frame}
 
 \begin{frame}{SNIPPETS}
