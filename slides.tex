@@ -62,17 +62,17 @@
 \begin{frame}{Coupled Chemical System: Mathematical Description}
   \begin{columns}
     \begin{column}{.45 \textwidth}
-     \begin{block}{Set of Elementary Reactions}
-      \begin{equation*}
-        \begin{gathered}
-          A + B \rightarrow C \\
-          B + C \rightarrow D \\
-          D + E \rightarrow E + F \\
-          F \rightarrow D + G \\
-          E + G \rightarrow A   
-        \end{gathered}
-      \end{equation*}
-    \end{block}
+      \begin{block}{Set of Elementary Reactions}
+        \begin{equation*}
+          \begin{gathered}
+            A + B \rightarrow C \\
+            B + C \rightarrow D \\
+            D + E \rightarrow E + F \\
+            F \rightarrow D + G \\
+            E + G \rightarrow A   
+          \end{gathered}
+        \end{equation*}
+      \end{block}
     \end{column}
     \begin{column}{.45 \textwidth}
       \begin{block}{Model Assumptions}
@@ -80,7 +80,7 @@
         \item $\bullet$ Many molecules: continuous and deterministic
         \item $\bullet$ Few molecules:\\ discrete and stochastic
         \end{itemize}
-    \end{block}
+      \end{block}
     \end{column}
   \end{columns}
 \end{frame}
@@ -88,20 +88,20 @@
 
 \begin{frame}{Deterministic Framework}
   \begin{columns}
-   \begin{column}{.45 \textwidth}
-     \begin{block}{Set of Elementary Reactions}
-      \begin{equation*}
-        \begin{gathered}
-          A + B \rightarrow C \\
-          B + C \rightarrow D \\
-          D + E \rightarrow E + F \\
-          F \rightarrow D + G \\
-          E + G \rightarrow A   
-        \end{gathered}
-      \end{equation*}
-    \end{block}
+    \begin{column}{.45 \textwidth}
+      \begin{block}{Set of Elementary Reactions}
+        \begin{equation*}
+          \begin{gathered}
+            A + B \rightarrow C \\
+            B + C \rightarrow D \\
+            D + E \rightarrow E + F \\
+            F \rightarrow D + G \\
+            E + G \rightarrow A   
+          \end{gathered}
+        \end{equation*}
+      \end{block}
     \end{column}
-     \begin{column}{.45 \textwidth}
+    \begin{column}{.45 \textwidth}
       \begin{block}{Computation}
         \begin{equation*}
           \begin{gathered}
@@ -109,8 +109,8 @@
             \frac{\partial [B]}{\partial t} = f_B\left([A], \dots [G]\right) 
             &\vdots\\
             \frac{\partial [G]}{\partial t} = f_G\left([A], \dots [G]\right) \\
-      \end{gathered}
-      \end{equation*}
+          \end{gathered}
+        \end{equation*}
       \end{block}
     \end{column}
   \end{columns}
@@ -119,31 +119,31 @@
 \begin{frame}{Stochastic Framework}
   \begin{columns}
     \begin{column}{.45 \textwidth}
-     \begin{block}{Set of Elementary Reactions}
-      \begin{equation*}
-        \begin{gathered}
-          R_1 + R^\prime_2 \xrightarrow{k_1} P_1 \\
-          R_2 + R^\prime_2 \xrightarrow{k_2} P_2 \\
-          R_3 + R_3^\prime \xrightarrow{k_3} P_3 + P_3^\prime 
-         \end{gathered}
-      \end{equation*}
-    \end{block}
+      \begin{block}{Set of Elementary Reactions}
+        \begin{equation*}
+          \begin{gathered}
+            R_1 + R^\prime_2 \xrightarrow{k_1} P_1 \\
+            R_2 + R^\prime_2 \xrightarrow{k_2} P_2 \\
+            R_3 + R_3^\prime \xrightarrow{k_3} P_3 + P_3^\prime 
+          \end{gathered}
+        \end{equation*}
+      \end{block}
     \end{column} 
     \begin{column}{.45 \textwidth}
       \begin{block}{Propensity $k_i$}
         The probability that $i$-th reaction occurs
-         in  $[0, dt]$ is
-         $$k_i dt + o(dt)$$
-         fixing molecules IDs a priori.
-       \end{block}
+        in  $[0, dt]$ is
+        $$k_i dt + o(dt)$$
+        fixing molecules IDs a priori.
+      \end{block}
     \end{column}
   \end{columns}
   \begin{block}{Reaction Rate $a_i$}
-         The probability that $i$-th reaction occurs
-         in  $[0, dt]$ is
-         $$a_i dt + o(dt)$$
-         with
-         $$ a_i = k_i \cdot \#R_1 \codt \dots \#R_n$$
+    The probability that $i$-th reaction occurs
+    in  $[0, dt]$ is
+    $$a_i dt + o(dt)$$
+    with
+    $$ a_i = k_i \cdot \#R_1 \codt \dots \#R_n$$
   \end{block}
 \end{frame}
 
@@ -151,7 +151,6 @@
   \begin{block}{Model Assumptions}
     \begin{itemize}
     \item $\bullet$ Molecules in solution $\implies$ No position $\implies$ States are multisets
-
       \begin{center}
         \begin{minipage}{.7 \textwidth}
           \begin{block}{State}
@@ -159,29 +158,56 @@
           \end{block}
         \end{minipage}
       \end{center}
-      
-      \item $\bullet$ Propensities are constant 
-
-        \begin{center}
-          \begin{minipage}{.7 \textwidth}
-            \begin{block}{State}
-              If $a_1$ reaction turns $S$ into $S^\pirme$, then for each $t > 0$
-              $$ \mathbb{P}\left(S^\prime, t + dt \,  \left | \, S, t\right\right) = a_1dt + o(dt) $$
-            \end{block}
-          \end{minipage}
-        \end{center}
-  
-      \end{itemize}
+      \vspace{1}
+    \item $\bullet$ Propensities are constant 
+      \begin{center} 
+       \begin{minipage}{.7 \textwidth}
+          \begin{block}{Transition Probability}
+            If $a_1$ reaction turns $S$ into $S^\pirme$, then for each $t > 0$
+            $$ \mathbb{P}\left(S^\prime, t + dt \,  \left | \, S, t\right\right) = a_1dt + o(dt) $$
+          \end{block}
+        \end{minipage}
+      \end{center}   
+    \end{itemize}
   \end{block}
 \end{frame}
 
-\begin{frame}{Master Equation}
-  The model is finite state CTMC exactly
-  \begin{itemize}
-  \item $\bullet$ One variable for each state
-  \item $\bullet$ transition probabilities $\longrightarrow$ differential equations 
-  \item $\bullet$ Exponential number of states
-  \end{itemize}
+\begin{frame}{How to Compute the Solution?}
+  The model is finite state CTMC , solved exactly by
+  \begin{block}{Master Equation}
+    \begin{itemize}
+    \item $\bullet$ One variable $p_S$ per state $S$
+    \item $\bullet$ transition probabilities $\longrightarrow$ differential equations 
+    \item $\bullet$ Exponential number of states $\implies$ intractable problem
+    \end{itemize}
+  \end{block}
+  
+  \begin{block}{Monte Carlo simulation}
+    \begin{itemize}
+    \item $\bullet$ Sample unbiased trajectories
+    \item $\bullet$ Markov property simplifies computation
+    \item $\bullet$ Gillespie's \textbf{Direct Method} and \textbf{First Reaction Method} 
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Reaction Times Distribution}
+  Let $f:\left[0, +\infty\right) \longrightarrow \mathbb{R}^+$ density of $i$-th reaction 
+  \begin{equation*}
+    \left\{
+      \begin{aligned}
+        &f(0) = \frac{d}{dt} \mathbb{P}_i\left(dt \,  \left | \, S, 0 \right\right)= a_i \\
+        &f(t + t_0) = \frac{f(t)}{1 - \int_0^{t_0} f(s)\, ds} \\        
+      \end{aligned}\right
+    \implies f(t) = \left\{
+    \begin{aligned} 
+        & a_i e^{-a_i t}   &\text{ if $t \geq 0$} \\
+        &0 &\text{if $t < 0$}
+    \end{aligned}\right
+  \end{equation*}
+  \begin{block}{Poisson Process}
+    Considering one reaction we get a Poisson Process.
+  \end{block}
 \end{frame}
 
 \begin{frame}{SNIPPETS}
@@ -193,34 +219,33 @@
     \end{minipage}
   \end{center}
   \begin{columns}
-  \begin{column}{.45 \textwidth}
-    \begin{block}{Set of Elementary Reactions}
-      \begin{equation*}
-        \begin{gathered}
-          R_1 + R^\prime_2 \xrightarrow{k_1} P_1 \\
-          R_2 + R^\prime_2 \xrightarrow{k_2} P_2 \\
-          R_3 + R_3^\prime \xrightarrow{k_3} P_3 + P_3^\prime 
-        \end{gathered}
-      \end{equation*}
-    \end{block}
-  \end{column} 
-  \begin{column}{.45 \textwidth}
-    \begin{block}{Propensity $k_i$}
-      The probability that $i$-th reaction occurs
-      in  $[0, dt]$ is
-      $$k_i dt + o(dt)$$
-      fixing molecules IDs a priori.
-    \end{block}
-  \end{column}
-\end{columns}
+    \begin{column}{.45 \textwidth}
+      \begin{block}{Set of Elementary Reactions}
+        \begin{equation*}
+          \begin{gathered}
+            R_1 + R^\prime_2 \xrightarrow{k_1} P_1 \\
+            R_2 + R^\prime_2 \xrightarrow{k_2} P_2 \\
+            R_3 + R_3^\prime \xrightarrow{k_3} P_3 + P_3^\prime 
+          \end{gathered}
+        \end{equation*}
+      \end{block}
+    \end{column} 
+    \begin{column}{.45 \textwidth}
+      \begin{block}{Propensity $k_i$}
+        The probability that $i$-th reaction occurs
+        in  $[0, dt]$ is
+        $$k_i dt + o(dt)$$
+        fixing molecules IDs a priori.
+      \end{block}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
   \begin{center}
-  \Huge{Thank you for your attention.}
-  \Huge{Questions?}
+    \Huge{Thank you for your attention.}
+    \Huge{Questions?}
   \end{center}
-
 \end{frame}
 
 \end{document}
