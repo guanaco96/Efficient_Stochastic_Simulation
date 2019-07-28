@@ -35,7 +35,6 @@
 \definecolor{myblue}{RGB}{80,80,160}
 \definecolor{mygreen}{RGB}{80,160,80}
 
-
 \begin{document}
 
 \begin{frame}
@@ -59,7 +58,6 @@
     \end{block}
   \end{itemize}
 \end{frame}
-
 
 \begin{frame}{Coupled Chemical System: Mathematical Description}
   \begin{columns}
@@ -124,37 +122,98 @@
      \begin{block}{Set of Elementary Reactions}
       \begin{equation*}
         \begin{gathered}
-          A + B \xrightarrow{k_1} C \\
-          B + C \xrightarrow{k_2} D \\
-          D + E \xrightarrow{k_3} E + F \\
-          F \xrightarrow{k_4} D + G \\
-          E + G \xrightarrow{k_5} A   
-        \end{gathered}
+          R_1 + R^\prime_2 \xrightarrow{k_1} P_1 \\
+          R_2 + R^\prime_2 \xrightarrow{k_2} P_2 \\
+          R_3 + R_3^\prime \xrightarrow{k_3} P_3 + P_3^\prime 
+         \end{gathered}
       \end{equation*}
     \end{block}
     \end{column} 
     \begin{column}{.45 \textwidth}
-      \begin{block}{Definition: Propensity $k_i$}
+      \begin{block}{Propensity $k_i$}
         The probability that $i$-th reaction occurs
          in  $[0, dt]$ is
          $$k_i dt + o(dt)$$
-         fixing molecules a priori.
-      \end{block}
-      \begin{block}{Model Assumptions}
-        \begin{itemize}
-        \item $\bullet$ Molecules are in solution $\implies$ position is worhtless
-        \item $\bullet$ States are multisets
-        \item $\bullet$ Propensities are constant 
-        \end{itemize}
-      \end{block}
+         fixing molecules IDs a priori.
+       \end{block}
     \end{column}
   \end{columns}
+  \begin{block}{Reaction Rate $a_i$}
+         The probability that $i$-th reaction occurs
+         in  $[0, dt]$ is
+         $$a_i dt + o(dt)$$
+         with
+         $$ a_i = k_i \cdot \#R_1 \codt \dots \#R_n$$
+  \end{block}
 \end{frame}
 
-\begin{frame}
+\begin{frame}{Stochastic Framework}
+  \begin{block}{Model Assumptions}
+    \begin{itemize}
+    \item $\bullet$ Molecules in solution $\implies$ No position $\implies$ States are multisets
+
+      \begin{center}
+        \begin{minipage}{.7 \textwidth}
+          \begin{block}{State}
+            $$ S = \left\{ \#M_1, \, \dots \#M_m \right\} $$
+          \end{block}
+        \end{minipage}
+      \end{center}
+      
+      \item $\bullet$ Propensities are constant 
+
+        \begin{center}
+          \begin{minipage}{.7 \textwidth}
+            \begin{block}{State}
+              If $a_1$ reaction turns $S$ into $S^\pirme$, then for each $t > 0$
+              $$ \mathbb{P}\left(S^\prime, t + dt \,  \left | \, S, t\right\right) = a_1dt + o(dt) $$
+            \end{block}
+          \end{minipage}
+        \end{center}
   
+      \end{itemize}
+  \end{block}
 \end{frame}
 
+\begin{frame}{Master Equation}
+  The model is finite state CTMC exactly
+  \begin{itemize}
+  \item $\bullet$ One variable for each state
+  \item $\bullet$ transition probabilities $\longrightarrow$ differential equations 
+  \item $\bullet$ Exponential number of states
+  \end{itemize}
+\end{frame}
+
+\begin{frame}{SNIPPETS}
+  \begin{center}
+    \begin{minipage}{.7 \textwidth}
+      \begin{block}{Teorema}
+        In quasi ogni torneo ogni vertice è un King.
+      \end{block}
+    \end{minipage}
+  \end{center}
+  \begin{columns}
+  \begin{column}{.45 \textwidth}
+    \begin{block}{Set of Elementary Reactions}
+      \begin{equation*}
+        \begin{gathered}
+          R_1 + R^\prime_2 \xrightarrow{k_1} P_1 \\
+          R_2 + R^\prime_2 \xrightarrow{k_2} P_2 \\
+          R_3 + R_3^\prime \xrightarrow{k_3} P_3 + P_3^\prime 
+        \end{gathered}
+      \end{equation*}
+    \end{block}
+  \end{column} 
+  \begin{column}{.45 \textwidth}
+    \begin{block}{Propensity $k_i$}
+      The probability that $i$-th reaction occurs
+      in  $[0, dt]$ is
+      $$k_i dt + o(dt)$$
+      fixing molecules IDs a priori.
+    \end{block}
+  \end{column}
+\end{columns}
+\end{frame}
 
 \begin{frame}
   \begin{center}
@@ -165,3 +224,8 @@
 \end{frame}
 
 \end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:
