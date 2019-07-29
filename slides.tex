@@ -139,7 +139,8 @@
     \begin{block}{Descriptive Model: Differential Equation}
       The Newton's law of motion:
       $$ \vv{F} = m \, \frac{\partial^2 \vv{x}}{\partial t^2} $$
-    \end{block}    
+    \end{block}
+    \pause
   \item $\bullet$ Define a computational model to make predictions
     \begin{block}{Computational Model: Numerical Integration}
       \begin{figure}[h]
@@ -229,6 +230,7 @@
       \end{block}
     \end{column}
   \end{columns}
+  \pause
   \begin{block}{Reaction Rate $a_i$}
     The probability that $i$-th reaction occurs
     in  $[0, dt]$ is
@@ -250,6 +252,7 @@
         \end{minipage}
       \end{center}
       \vspace{1.pt}
+      \pause
     \item $\bullet$ Propensities are constant 
       \begin{center} 
        \begin{minipage}{.7 \textwidth}
@@ -272,7 +275,7 @@
     \item $\bullet$ Exponential number of states $\implies$ intractable problem
     \end{itemize}
   \end{block}
-  
+  \pause
   \begin{block}{Monte Carlo simulation}
     \begin{itemize}
     \item $\bullet$ Sample unbiased trajectories
@@ -292,11 +295,14 @@
     \end{aligned}\right.
     \implies f(t) =  a_i e^{-a_i t}
   \end{equation*}
+  \pause
   \begin{block}{Exponential Distribution}
     \begin{itemize}
     \item $\bullet$ The $i$-th reaction time is distributed as $\Exp(a_i)$
+\pause
     \item $\bullet$ $\Exp(a_1) \land \dots \land \Exp(a_n)$ is distributed as
       $\Exp\left(\sum_{i\leq n} a_i\right)$ 
+\pause
     \item $\bullet$ Reactions happen as hitting times of an homogeneous 
       $$\text{\textbf{Poisson Process} of rate } \lambda =  \sum_{i\leq n} a_i$$ 
     \end{itemize}
@@ -310,6 +316,7 @@
       \mathbb{P}\left[Exp(a_i) \leq \Exp(a_j) \; \forall j \leq n \right] = \frac{a_i}{\sum_ja_j}
     \end{equation*}
   \end{block}
+  \pause
   \begin{block}{Direct Method}
     \begin{enumerate}
     \item Initialize $S$ and $t\leftarrow 0$ 
@@ -334,6 +341,7 @@
     \item Go to step 2
     \end{enumerate}
   \end{block}
+  \pause
   \begin{block}{Method Equivalence}
     \begin{itemize}
     \item $\bullet$ $\Exp(a_1) \land \dots \land \Exp(a_n) \sim
@@ -352,6 +360,7 @@
     \item $\bullet$ Appropriate data structure to store $\bigl\{\tau_i\bigr\}_i$
     \end{itemize}
   \end{block}
+  \pause
   \begin{block}{Dependency Graph}
     $G=\left(V,\, E\right)$ where $V$ are reactions \\
     \vspace{2pt}
@@ -374,6 +383,7 @@
     \end{itemize}
   \end{block}
   \vspace{5pt}
+  \pause
   Dependency Graph sparse $\implies$ few calls to \textsc{UpdateKey}
   \begin{center}
     \textbf{Priority Queue $\pmb{\gg}$ Array}
@@ -579,6 +589,7 @@
       \end{minipage}
     \end{center}
   \end{block}
+  \pause
   \begin{block}{Proof by Induction}
     \begin{itemize}
     \item $\bullet$ If $\alpha = \mu$ we assign $\tau^n_\mu \leftarrow \rho + t_n$
@@ -602,6 +613,7 @@
     \end{equation*}
     $\tau^{n-1}_\alpha > \tau^{n-1}_\mu \iff \tau^n_\alpha > \tau^{n-1}_\mu$ then we can
     substitute $\tau_\alpha^{n-1}$ with $\tau_\alpha^{n}$
+\pause
     \begin{center}
       \begin{minipage}{.8 \textwidth}
         \begin{block}{Case $s \leq \tau_\mu^{n-1}$}
@@ -700,6 +712,7 @@
       \end{enumerate}
     \end{enumerate}
   \end{block}
+  \pause
   \begin{block}{\textsc{PrefixSumBinarySearch}}
     \textsc{PrefixSumBinarySearch}(val) =  \textsc{PSBS\_util}(val, root) 
     \begin{center}
@@ -716,6 +729,7 @@
     \vspace{2.5pt}
     This is achieved both with EDM and NRM.
   \end{block}
+  \pause
 \begin{block}{Practical Comparison}
     \begin{itemize} 
     \item $\bullet$ Direct Method samples 2 random numbers
