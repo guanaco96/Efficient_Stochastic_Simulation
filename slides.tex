@@ -1,4 +1,4 @@
-\documentclass{beamer}
+  \documentclass{beamer}
 \usetheme{Madrid}
 \useinnertheme{rounded}
 \usecolortheme{whale}
@@ -369,7 +369,7 @@
   \begin{block}{Data Structure}
     We need to store key-value pairs $\left(\tau_i,\, i\right)$ supporting:
     \begin{itemize}
-    \item $\bullet$ \textsc{PopMin}()
+    \item $\bullet$ \textsc{GetMin}()
     \item $\bullet$ \textsc{UpdateKey}$\left(i, \, \tau_i\right)$
     \end{itemize}
   \end{block}
@@ -546,7 +546,7 @@
       \begin{enumerate}
       \item Calculate $a_i$, generate and store $\tau_i$
       \end{enumerate}
-    \item $\bigl(\tau_\mu, \mu\bigr) \leftarrow$ \textsc{PopMin}$()$
+    \item $\bigl(\tau_\mu, \mu\bigr) \leftarrow$ \textsc{GetMin}$(), \quad t \leftarrow \tau_\mu$
     \item For each arc $\bigl(\mu, \alpha\bigr)$ in $G$:
       \begin{enumerate}
       \item $\tau_\alpha \leftarrow \left(a^{old}_\alpha \big/ a^{new}_\alpha\right)
@@ -554,7 +554,7 @@
       \item \textsc{UpdateKey}$\left(\alpha, \, \tau_\alpha\right)$
       \end{enumerate}
     \item Sample $\rho$ form distribution $\Exp\left(a^{new}_\mu\right)$
-    \item $\tau_\mu \leftarrow \rho + \tau_\mu$
+    \item $\tau_\mu \leftarrow \rho + t$
     \item \textsc{UpdateKey}$\left(\mu, \, \tau_\mu\right)$
     \item Go to step 4
     \end{enumerate}
@@ -562,7 +562,49 @@
 \end{frame}
 
 \begin{frame}{Next Reaction: Correctness}
-  
+  \begin{block}{Absolute Times}
+    Let $t_n$ be the time of last reaction at iteration $n$
+    \begin{center}
+      \begin{minipage}{.7 \textwidth}
+        \begin{block}{Invariant}
+          Each $\tau_\alpha$ in PQ$_n$ has cumulative distribution function
+          \begin{equation*}
+            \mathbb{P}_n\left(\tau_\alpha > s\right)= \left\{
+              \begin{aligned}
+                &\Exp\left(-a_\alpha^n \left(s - t_n\right)\right) &\text{ if } u > t_n \\
+                &1 &\text{ if } u \leq t_n
+              \end{aligned}\right.
+          \end{equation*}
+        \end{block}
+      \end{minipage}
+    \end{center}
+  \end{block}
+  \begin{block}{Proof by Induction}
+    \begin{itemize}
+    \item $\bullet$ If $\alpha = \tau$ we assign $\tau_\mu \leftarrow \rho + t$
+      and $\rho \sim \Exp\left(a^{new}_\mu\right)$
+    \item $\bullet$ If $\alpha \neq \tau \quad \mathbb{P}_n\left(\tau_\alpha > s\right)=
+      \mathbb{P}_{n-1}\left(\tau_\alpha > s\right \big| \tau_\alpha > \tau_\mu\right)=$
+      \begin{equation*}
+      \frac{\mathbb{P}_{n-1}\left(\tau_\alpha > s \land \tau_\alpha > \tau_\mu \right)}{
+      \mathbb{P}_{n-1}\left(\tau_\alpha > \tau_\mu \right)}
+  \end{equation*}
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Next Reaction: Correctness}
+  \begin{block}{Proof by Induction}
+    \begin{equation*}
+      \frac{\mathbb{P}_{n-1}\left(\tau_\alpha > s \land \tau_\alpha > \tau_\mu \right)}{
+        \mathbb{P}_{n-1}\left(\tau_\alpha > \tau_\mu \right)} = \left\{
+        \begin{aligned}
+          &\mathbb{P}_{n-1}\left(\tau_\alpha > s \right) \bigg/
+          \mathbb{P}_{n-1}\left(\tau_\alpha > \tau_\mu \right) &\text{ if } s > \tau_\mu \\
+          &1 &\text{ if } s \leq \tau_\mu
+        \end{aligned}
+    \end{equation*}
+  \end{block}
 \end{frame}
 
 \begin{frame}{Next Reaction: Analysis}
