@@ -642,43 +642,100 @@
   \end{block}
 \end{frame}
 
+\begin{frame}{Next Reaction: Correctness}
+  \begin{center}
+  Are $\bigl\{\tau_\alpha\bigr\}_\alpha$ still independent?
+\end{center}
 
-
-
-\begin{comment}
-  \left\{
-        \begin{aligned}
-          &\mathbb{P}\left(\tau_\alpha > s \right) \bigg/
-          \mathbb{P}\left(\tau_\alpha > \tau_\mu \right) &\text{ if } s > \tau_\mu \\
-          &1 &\text{ if } s \leq \tau_\mu
-        \end{aligned}
-\end{comment}
-
-
-\begin{frame}{Next Reaction: Analysis}
-  \begin{block}{Complexity}
-    The Complexity of Next Reaction simulating $r$ reactions is
-    $$ O\bigl(k \log(r)\bigr) $$
-    where $k$ is the average degree of dependency graph.    
+  \begin{block}{Theorem}
+    $X_0,\, X_1, \dots X_n$ independent r.v. then
+    \begin{equation*}
+      \bigl(X_1 \,\big|\, X_0 \leq \alpha\bigr), \dots \bigl(X_n \,\big|\, X_0 \leq \alpha\bigr)   
+    \end{equation*}
+    are independent. Given $f_1,\dots f_n$ deterministic functions
+    \begin{equation*}
+      f_1(X_1), \dots f_n(X_n)
+    \end{equation*}
+    are independent
   \end{block}
-  Questa slide la metto dopo aver provato la correttezza del First reaction e anche quella
-  dell'optimized direct method, dico che hanno la stessa complessità ma nella pratica è meglio il FRM
 \end{frame}
 
-\begin{frame}{Gillespie's Methods}
-  \begin{block}{Unbiased Estimators}
-    DM and FRM are unbiased estimators of
-    master equation solution
-
+\begin{frame}{Enhancing Direct Method}
+  \begin{block}{Direct Method}
+    \begin{enumerate}
+    \item Initialize $S$ and $t\leftarrow 0$ 
+    \item Calculate $a_i$ for each reaction $i$
+    \item Sample reaction $\mu$ with probability $a_\mu \big/ \sum_j a_j$
+    \item Sample $\tau$ from distribution $\Exp\left(\sum_j a_j\right)$
+    \item Update $S$ and $t \leftarrow t + \tau$
+    \item Go to step 2
+    \end{enumerate}
   \end{block}
-  \begin{block}{Naive Implementations Comparison}
+  \begin{block}{Optimizations}
+    \begin{enumerate}
+    \item  Employ dependency graph
+    \item  We need a data structure for $\bigl\{a_i\bigr\}_i$ supporting
+      \begin{enumerate}
+      \item \textsc{UpdateKey}(i)
+      \item \textsc{PrefixSumBinarySearch}(val)
+      \end{enumerate}
+    \end{enumerate}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Enhancing Direct Method}
+  \begin{block}{\textsc{PSBS\_util}}
+    Augment a \textbf{Range Tree} with the following method
+    \textsc{PSBS\_util}(val, node)
+    \begin{enumerate}
+    \item \textbf{If} node = leaf \textbf{return} node.index
+    \item \textbf{If} val $<$ node.left\_child.sum:
+      \begin{enumerate}
+      \item \textbf{return} \textsc{PSBS\_util}(val, node.left\_child)
+      \end{enumerate}
+    \item \textbf{Else}:
+      \begin{enumerate}
+      \item val $\leftarrow$ val - node.left\_child.sum 
+      \item \textbf{return} \textsc{PSBS\_util}(val, node.right\_child)
+      \end{enumerate}
+    \end{enumerate}
+  \end{block}
+  \begin{block}{\textsc{PrefixSumBinarySearch}}
+    \textsc{PrefixSumBinarySearch}(val) =  \textsc{PSBS\_util}(val, root) 
+    \begin{center}
+      Complexity: $O\bigl(\log(r)\bigr)$
+    \end{center}
+  \end{block}
+\end{frame}
+
+\begin{frame}{Complexity Analysis}
+  \begin{block}{Next Reaction Method and Enhanced Direct Method}
+    The Complexity of simulating $r$ reactions is
+    $$ O\bigl(k \log(r)\bigr) $$
+    where $k$ is the average degree of dependency graph. \\
+    \vspace{2.5pt}
+    This is achieved both with EDM and NRM.
+  \end{block}
+\begin{block}{Practical Comparison}
     \begin{itemize} 
     \item $\bullet$ Direct Method samples 2 random numbers
     \item $\bullet$ The First Reaction Method samples one per reaction 
     \item $\bullet$ RNG takes up to 10x FLOP
     \end{itemize}
   \end{block}
-\center \Huge{SLIDE DA CAMBIARE}
+\end{frame}
+
+\begin{frame}{Comparison}
+  \begin{block}{Practical Comparison}
+    \begin{itemize} 
+    \item $\bullet$ In practice few reactions accounts for the majority of events
+    \item $\bullet$ Few comparisons in PQ \textsc{Update}
+    \item $\bullet$ \textsc{PrefixSumBinarySearch} always takes $\log(r)$
+    \item $\bullet$ MRM is easily extensible to Non-Constant Propensity
+    \item $\bullet$ MRM is easily extensible to Non-Markov Processes
+    \item $\bullet$ \# molecules $\ll$ \# reactions $\implies$ Non-Markov Processes 
+    \end{itemize}
+  \end{block}
 \end{frame}
 
 \begin{frame}
